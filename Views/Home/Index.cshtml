@@ -1,0 +1,116 @@
+﻿@model MyArticle
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@using (Html.BeginForm("Articles", "Home", FormMethod.Post))
+{
+    <p>
+        @Html.LabelFor(x => x.Id, "ID")
+        @Html.TextBoxFor(x => x.Id)
+    </p>
+    <p>
+        @Html.LabelFor(x => x.Category_Id, "ID категории")
+        @Html.TextBoxFor(x => x.Category_Id)
+    </p>
+    <p>
+        @Html.LabelFor(x => x.Name, "Заголовок")
+        @Html.TextBoxFor(x => x.Name)
+    </p>
+    <p>
+        @Html.LabelFor(x => x.Description, "Описание")
+        @Html.TextBoxFor(x => x.Description)
+    </p>
+    <input type="submit" />
+}
+<input id="startPOSTarticles" type="button" value="POSTarticles" />
+<br />
+<input id="startGETarticles" type="button" value="GETarticles" />
+<br />
+<input id="startGETarticlesId" type="button" value="GETarticlesId" />
+<br />
+<input id="startPUTarticles" type="button" value="PUTarticles" />
+<br />
+<input id="startGETarticlesByQuery" type="button" value="GETarticlesByQuery" />
+<br />
+<input id="startDELETEarticles" type="button" value="DELETEarticles" />
+<script>
+    $('#startPOSTarticles').click(function () {
+        $.ajax({
+            url: `Home/articles?&name=${$('#Name').val()}`+
+            `&description=${$('#Description').val()}`+
+            `&category_id=${$('#Category_Id').val()}`,
+            method: 'POST',
+            success: function(data){
+                console.log(data)
+            },
+            error: function(er){
+                console.log(er)
+            }
+        })
+    })
+    $('#startGETarticles').click(function () {
+        $.ajax({
+            url: `Home/articles`,
+            method: 'GET',
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (er) {
+                console.log(er)
+            }
+        })
+    })
+    $('#startGETarticlesId').click(function () {
+        $.ajax({
+            url: `Home/articles/${$('#Id').val()}`,
+            method: 'GET',
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (er) {
+                console.log(er)
+            }
+        })
+    })
+    $('#startPUTarticles').click(function () {
+        $.ajax({
+            url: `Home/articles?id=${$('#Id').val()}` +
+                `&name=${$('#Name').val()}` +
+                `&description=${$('#Description').val()}` +
+                `&category_id=${$('#Category_Id').val()}`,
+            method: 'PUT',
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (er) {
+                console.log(er)
+            }
+        })
+    })
+    $('#startGETarticlesByQuery').click(function () {
+        let query = prompt("Поиск:");
+        $.ajax({
+            url: `Home/articles?query=${query}`,
+            method: 'GET',
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (er) {
+                console.log(er)
+            }
+        })
+    })
+    $('#startDELETEarticles').click(function () {
+        $.ajax({
+            url: `Home/articles?id=${$('#Id').val()}`,
+            method: 'DELETE',
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (er) {
+                console.log(er)
+            }
+        })
+    })
+</script>
